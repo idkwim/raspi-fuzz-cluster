@@ -9,7 +9,7 @@ set -e
 download_afl()
 {
     cd ${HOME}
-    rm -fr -- afl-*
+    rm -fr -- afl-?.* afl-latest
     curl -fSsL http://lcamtuf.coredump.cx/afl.tgz | tar xz
     export afl_dir="$(find . -type d -iname "afl-*"|sort|tail -1)"
     export afl_dir="$(realpath ${afl_dir})"

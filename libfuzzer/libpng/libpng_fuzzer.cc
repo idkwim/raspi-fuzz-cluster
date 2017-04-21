@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 #define PNG_DEBUG 3
-#define PNG_BYTES_TO_CHECK 4
+#define PNG_BYTES_TO_CHECK 8
 
 #include <png.h>
 
@@ -48,7 +48,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
                 .cur = 0
         };
 
-        if (png_sig_cmp((unsigned char*)data, (png_size_t)0, PNG_BYTES_TO_CHECK))
+        if (size<PNG_BYTES_TO_CHECK)
+                return 0;
+
+        if (png_sig_cmp((unsigned char*)data, 0, PNG_BYTES_TO_CHECK))
                 return 0;
 
         png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
@@ -65,7 +68,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
                 goto finish;
 
         png_set_read_fn(png_ptr,(png_voidp)&fd, user_read_fn);
-        png_set_sig_bytes(png_ptr, 8);
         png_read_info(png_ptr, info_ptr);
         width = png_get_image_width(png_ptr, info_ptr);
         height = png_get_image_height(png_ptr, info_ptr);
@@ -73,9 +75,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
         bit_depth = png_get_bit_depth(png_ptr, info_ptr);
         number_of_passes = png_set_interlace_handling(png_ptr);
         png_read_update_info(png_ptr, info_ptr);
-
-        if (setjmp(png_jmpbuf(png_ptr)))
-                goto finish;
 
         row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * height);
 
@@ -91,5 +90,5 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
 
 finish:
         png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-        return 0;
+        return 1;
 }

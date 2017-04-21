@@ -15,3 +15,5 @@ alias l='ls'
 alias ll='l -l --human-readable'
 alias a='ll --all'
 alias gdb="gdb -q"
+
+export TERM=xterm-256color

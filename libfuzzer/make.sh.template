@@ -2,9 +2,11 @@
 #
 # Simple template for compiling target with libfuzzer
 #
-# See http://llvm.org/docs/LibFuzzer.html for more fine tuning
+# Refs:
+# - http://llvm.org/docs/LibFuzzer.html
+# - https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
+# - https://clang.llvm.org/docs/SanitizerCoverage.html
 #
-
 
 set -e
 # set -x
@@ -15,7 +17,8 @@ warn()    { echo -e "\e[0;33m[!]\e[0m $*"; }
 err()     { echo -e "\e[0;31m[!]\e[0m $*"; }
 
 CC=clang++-3.9
-XSAN="-fsanitize=address -fsanitize-coverage=trace-cmp -fsanitize=undefined -fno-sanitize-recover=undefined -fsanitize-coverage=edge"
+XSAN="-fsanitize=address -fsanitize=integer -fsanitize=undefined"
+XSAN="${XSAN} -fsanitize-coverage=trace-pc,edge"
 FLAGS="-ggdb -O1 -fno-omit-frame-pointer ${XSAN}"
 NCPUS="`grep --count processor /proc/cpuinfo`"
 MEM_LIMIT=$((1024 / ${NCPUS}))

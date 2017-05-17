@@ -2,7 +2,7 @@
  * C-Ares fuzzer
  *
  * Compile with:
- * $ ./make.sh c-ares-fuzzer.cc -lares
+ * $ ./make.sh c-ares-fuzzer.cc -lcares
  */
 
 

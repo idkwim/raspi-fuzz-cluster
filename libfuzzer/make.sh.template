@@ -17,8 +17,8 @@ warn()    { echo -e "\e[0;33m[!]\e[0m $*"; }
 err()     { echo -e "\e[0;31m[!]\e[0m $*"; }
 
 CC=clang++-3.9
-XSAN="-fsanitize=address -fsanitize=integer -fsanitize=undefined"
-XSAN="${XSAN} -fsanitize-coverage=trace-pc,edge"
+XSAN="-fsanitize=address -fsanitize=integer -fsanitize=undefined -fno-sanitize-recover=undefined"
+XSAN="${XSAN} -fsanitize-coverage=trace-cmp -fsanitize-coverage=edge"
 FLAGS="-ggdb -O1 -fno-omit-frame-pointer ${XSAN}"
 NCPUS="`grep --count processor /proc/cpuinfo`"
 MEM_LIMIT=$((1024 / ${NCPUS}))

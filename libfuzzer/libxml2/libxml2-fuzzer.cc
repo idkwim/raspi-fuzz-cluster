@@ -2,7 +2,7 @@
  * libxml2 fuzzer
  *
  * Compile with:
- * $ ./make.sh libxml2-fuzzer.cc -I/usr/include/libxml2/libxml -lxml2
+ * $ ./make.sh libxml2-fuzzer.cc -I/usr/include/libxml2 -lxml2
  */
 
 #include <string>

@@ -4,18 +4,19 @@
  * $ ./make.sh libexpat-fuzzer.cc -lexpat
  */
 #include <stdio.h>
-#include <expat.h> 
- 
+#include <expat.h>
+
 static void XMLCALL start(void *data, const char *el, const char **attr)
 {
 	return;
 }
- 
+
 static void XMLCALL end(void *data, const char *el)
 {
-  	return;
+	return;
 }
- 
+
+
 extern "C" int LLVMFuzzerTestOneInput(const unsigned char *data, unsigned long size)
 {
         int error, done;

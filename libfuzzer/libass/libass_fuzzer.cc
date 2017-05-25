@@ -2,7 +2,7 @@
  * libass fuzzer
  *
  * Compile with:
- * $ ./make.sh libass_fuzzer.cc -I. -L. -lass
+ * $ ./make.sh libass_fuzzer.cc -I. -Llibass -lass
  */
 
 #include <stdint.h>

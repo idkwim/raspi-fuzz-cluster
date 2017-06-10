@@ -8,7 +8,13 @@
 #include <stdint.h>
 #include <stddef.h>
 
-extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+/**
+ * For custom mutators, check out
+ * https://github.com/llvm-mirror/llvm/blob/master/lib/Fuzzer/FuzzerInterface.h
+ */
+
+extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
+{
         return \
                 size >= 3 &&
                 data[0] == 'F' &&

@@ -8,7 +8,7 @@ prefix="$(basename ${url/.tar.xz/})"
 pushd .
 cd /tmp
 wget ${url}
-tar -C /usr -xvJf ${prefix}.tar.xz --transform="flags=r;s!${prefix}!!"
+sudo tar -C /usr -xpvJf ${prefix}.tar.xz --transform="flags=r;s!${prefix}!!"
 rm ${prefix}.tar.xz
 popd
 

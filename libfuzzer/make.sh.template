@@ -16,9 +16,12 @@ success() { echo -e "\e[0;32m[+]\e[0m $*"; }
 warn()    { echo -e "\e[0;33m[!]\e[0m $*"; }
 err()     { echo -e "\e[0;31m[!]\e[0m $*"; }
 
-CC=clang++-3.9
+# CC=clang-3.9
+CC=clang-4.0
+CXX=${CC}
 XSAN="-fsanitize=address -fsanitize=integer -fsanitize=undefined -fno-sanitize-recover=undefined"
-XSAN="${XSAN} -fsanitize-coverage=trace-cmp -fsanitize-coverage=edge"
+# XSAN="${XSAN} -fsanitize-coverage=trace-cmp -fsanitize-coverage=edge"
+XSAN="${XSAN} -fsanitize-coverage=trace-pc-guard"
 FLAGS="-ggdb -O1 -fno-omit-frame-pointer ${XSAN}"
 NCPUS="`grep --count processor /proc/cpuinfo`"
 MEM_LIMIT=$((1024 / ${NCPUS}))
@@ -69,7 +72,7 @@ fi
 
 
 shift
-LIBS="$@"
+LIBS="$@ -lstdc++"
 
 [ ! -f ${LIBFUZZ} ] && build_libfuzzer
 

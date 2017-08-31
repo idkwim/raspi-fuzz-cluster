@@ -1,5 +1,9 @@
 # raspi-fuzz-cluster
 
+Transform your Raspberry-Pi cluster into a fuzzing farm
+
+![](http://i.imgur.com/o0kyt5f.jpg)
+
 A bunch of scripts and config tools for building and managing my Raspberry-Pi
 fuzzing cluster.
 
@@ -22,3 +26,5 @@ apt-get install clang-3.9 llvm-3.9 cmake automake pkg-config autoconf m4 gdb
 ```bash
 ./clang-4*-rpi-install.sh
 ```
+
+

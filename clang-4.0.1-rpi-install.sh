@@ -9,6 +9,7 @@ pushd .
 cd /tmp
 wget ${url}
 sudo tar -C /usr -xpvJf ${prefix}.tar.xz --transform="s!${prefix}!!"
+sudo ln -sf /usr/bin/clang-4.0 /usr/bin/clang++-4.0
 rm ${prefix}.tar.xz
 popd
 

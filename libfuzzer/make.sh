@@ -1,12 +1,20 @@
 #!/bin/bash
 #
-# Simple template for compiling target with libfuzzer
+# Simple template for compiling target with libfuzzer. It will download and compile libFuzzer,
+# then proceed to compiling your fuzzer.
+#
+# Syntax:
+#    $ ./make myfuzzer.cc <optional-linking-flags>
+#
+# For better results, compile the targeted library with ASAN, for example:
+#    $ ./configure CC="clang-4.0 -O2 -fno-omit-frame-pointer -g -fsanitize=address -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
 #
 # Refs:
 # - http://llvm.org/docs/LibFuzzer.html
 # - https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
 # - https://clang.llvm.org/docs/SanitizerCoverage.html
 #
+
 
 set -e
 # set -x
@@ -17,7 +25,7 @@ warn()    { echo -e "\e[0;33m[!]\e[0m $*"; }
 err()     { echo -e "\e[0;31m[!]\e[0m $*"; }
 
 # CC=clang-3.9
-CC=clang-4.0
+CC=clang++-4.0
 CXX=${CC}
 XSAN="-fsanitize=address -fsanitize=integer -fsanitize=undefined -fno-sanitize-recover=undefined"
 # XSAN="${XSAN} -fsanitize-coverage=trace-cmp -fsanitize-coverage=edge"
@@ -61,7 +69,7 @@ require_binary git
 
 IN="`realpath \"$1\"`"
 OUT=${IN/.cc/}
-LIBFUZZ="`realpath \"./libFuzzer.a\"`"
+LIBFUZZ="`realpath \"../libFuzzer-$(arch).a\"`"
 
 if [ "$1" = "clean" ]; then
     info "Cleaning stuff"

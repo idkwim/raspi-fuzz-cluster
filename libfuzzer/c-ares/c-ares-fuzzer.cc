@@ -2,11 +2,11 @@
  * C-Ares fuzzer
  *
  * Compile library with ASAN:
- * $ curl -fSsL https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz  | tar xfz -
- * $ ./configure CC="clang-4.0 -O2 -fno-omit-frame-pointer -g -fsanitize=address -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
+ * $ curl -fSsL https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz  | tar xfz - && cd c-ares-1.13.0
+ * $ ./configure CC="clang-5.0 -O2 -fno-omit-frame-pointer -g -fsanitize=address -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
  *
  * Compile fuzzer with:
- * $ ./make.sh c-ares-fuzzer.cc -lcares
+ * $ ./make.sh c-ares-fuzzer.cc -Ic-ares-1.13.0 -Lc-ares-1.13.0 -lcares
  *
  * Run fuzzer with:
  * $ ./c-ares-fuzzer -workers=4 -jobs=4 -timeout=3000 -rss_limit_mb=256

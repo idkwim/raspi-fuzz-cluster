@@ -9,14 +9,14 @@
 #
 
 set -e
-# set -x
+set -x
 
 info()    { echo -e "\e[0;34m[*]\e[0m $*"; }
 success() { echo -e "\e[0;32m[+]\e[0m $*"; }
 warn()    { echo -e "\e[0;33m[!]\e[0m $*"; }
 err()     { echo -e "\e[0;31m[!]\e[0m $*"; }
 
-CC=clang++-3.9
+CC=clang++-4.0
 XSAN="-fsanitize=address -fsanitize=integer -fsanitize=undefined -fno-sanitize-recover=undefined"
 XSAN="${XSAN} -fsanitize-coverage=trace-cmp -fsanitize-coverage=edge"
 FLAGS="-ggdb -O1 -fno-omit-frame-pointer ${XSAN}"
@@ -58,7 +58,7 @@ require_binary git
 
 IN="`realpath \"$1\"`"
 OUT=${IN/.cc/}
-LIBFUZZ="`realpath \"./libFuzzer.a\"`"
+LIBFUZZ="`realpath \"../libFuzzer-$(arch).a\"`"
 
 if [ "$1" = "clean" ]; then
     info "Cleaning stuff"

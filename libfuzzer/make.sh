@@ -107,8 +107,8 @@ info "Building '${OUT}'"
 ${CC} ${FLAGS} ${IN} ${LIBS} ${LIBFUZZ} -o ${OUT}
 
 success "Success, now you can:"
-echo -e "- Start a simple one-core fuzzing run by running \n\t $ ${OUT}"
+echo -e "- Start a simple one-core fuzzing run by running:\n    $ ${OUT}"
 if [ ${NCPUS} -gt 1 ]; then
-    echo -e "- Or in parallel on ${NCPUS} cores by running \n\t $ ${OUT} -workers=${NCPUS} -jobs=${NCPUS} -timeout=3000 -rss_limit_mb=${MEM_LIMIT}"
+    echo -e "- Or in parallel on ${NCPUS} cores by running:\n    $ ${OUT} -workers=${NCPUS} -jobs=${NCPUS} -timeout=3000 -rss_limit_mb=${MEM_LIMIT}"
 fi
 exit 0

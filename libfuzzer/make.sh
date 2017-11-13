@@ -24,15 +24,34 @@ success() { echo -e "\e[0;32m[+]\e[0m $*"; }
 warn()    { echo -e "\e[0;33m[!]\e[0m $*"; }
 err()     { echo -e "\e[0;31m[!]\e[0m $*"; }
 
-# CC=clang-3.9
-CC=clang++-4.0
+CC=clang++-3.9
+#CC=clang++-4.0
+#CC=clang++-5.0
 CXX=${CC}
-XSAN="-fsanitize=address -fsanitize=integer -fsanitize=undefined -fno-sanitize-recover=undefined"
-# XSAN="${XSAN} -fsanitize-coverage=trace-cmp -fsanitize-coverage=edge"
-XSAN="${XSAN} -fsanitize-coverage=trace-pc-guard"
-FLAGS="-ggdb -O1 -fno-omit-frame-pointer ${XSAN}"
 NCPUS="`grep --count processor /proc/cpuinfo`"
 MEM_LIMIT=$((1024 / ${NCPUS}))
+
+case ${CC} in
+    clang-3.9|clang++-3.9)
+        XSAN="-fsanitize=address,integer,undefined -fsanitize-coverage=edge"
+        # -fsanitize-coverage=trace-pc doesn't work for some reasons on ARM...
+        ;;
+
+    clang-4.0|clang++-4.0)
+        XSAN="-fsanitize=address -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
+        ;;
+
+    clang-5.0|clang++-5.0)
+        XSAN="-fsanitize=fuzzer,address,integer,undefined -fsanitize-coverage=trace-pc-guard,trace-cmp,trace-gep,trace-div"
+        ;;
+
+    *)
+        err "unknown clang"
+        exit 1
+        ;;
+esac
+
+FLAGS="-ggdb -O1 -fno-omit-frame-pointer ${XSAN}"
 
 
 require_binary()
